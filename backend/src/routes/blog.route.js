@@ -1,13 +1,15 @@
 const express = require('express');
 const Blog = require('../model/blog.model');
 const Comment = require('../model/comment.model');
+const verifyToken = require('../middleware/verifytoken');
+const isAdmin = require('../middleware/isAdmin');
 const router = express.Router();
 
 //create a blog post
-router.post("/create-post", async(req, res) => {
+router.post("/create-post", verifyToken,isAdmin, async(req, res) => {
     try {
         //console.log("Blog data from api:",req.body)
-        const newPost = new Blog({...req.body});
+        const newPost = new Blog({...req.body, author: req.userId});
         await newPost.save();
         res.status(201).send({
             message:"Post created successfully",
@@ -53,7 +55,7 @@ router.get('/', async (req,res)=> {
         }
 
 
-        const post = await Blog.find(query).sort({createdAt: -1});
+        const post = await Blog.find(query).populate('author' , 'email').sort({createdAt: -1});
         res.status(200).send({
         message: "All posts retrived successfully",
         posts:post
@@ -66,7 +68,7 @@ router.get('/', async (req,res)=> {
 })
 
 // get single blog by id
-router.get("/:id", async(req,res) => {
+router.get("/:id",async(req,res) => {
     try {
         console.log(req.params.id)
         const postId = req.params.id
@@ -89,7 +91,7 @@ router.get("/:id", async(req,res) => {
 })
 
 // update a blog post
-router.patch("/update-post/:id", async(req, res) => {
+router.patch("/update-post/:id", verifyToken, async(req, res) => {
     try {
         const postId = req.params.id;
         const updatedPost = await Blog.findByIdAndUpdate(postId, {
@@ -112,8 +114,7 @@ router.patch("/update-post/:id", async(req, res) => {
 })
 
 // delete a blog post
-
-router.delete("/:id", async(req, res) => {
+router.delete("/:id", verifyToken, async(req, res) => {
     try {
         const postId = req.params.id;
         const deletedPost = await Blog.findByIdAndDelete(postId);
