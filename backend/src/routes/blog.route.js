@@ -55,11 +55,8 @@ router.get('/', async (req,res)=> {
         }
 
 
-        const post = await Blog.find(query).populate('author' , 'email').sort({createdAt: -1});
-        res.status(200).send({
-        message: "All posts retrived successfully",
-        posts:post
-        })
+        const posts = await Blog.find(query).populate('author' , 'email').sort({createdAt: -1});
+        res.status(200).send(posts)
 
     } catch (error) {
         console.error("Error creating post:", error);
@@ -138,34 +135,37 @@ router.delete("/:id", verifyToken, async(req, res) => {
     }
 })
 
-// related posts
-
-router.get("/related/:id", async(req, res) =>{
+//related blog
+router.get('/related/:id', async (req, res) => {
     try {
-        const {id} = req.params;
-        if(!id) {
-            return res.status(400).send({message: "Post id is required"})
-        } 
-        
-        const blog = await Blog.findById(id);
-
-        if(!blog) {
-            return res.status(404).send({ message: "Post not found"})
-        }
-        const titleRegex = new RegExp(blog.title.split(' ').join('|'), 'i');
-
-        const relatedQuery = {
-            _id: {$ne: id},  //exclude the current blog by id
-            title:{$regex: titleRegex}
-        }
-
-        const relatedPost = await Blog.findById(relatedQuery)
-        res.status(200).send({message: "Related post found!", post: relatedPost})
+      const { id } = req.params;
+  
+      // Check if id is defined
+      if (!id) {
+        return res.status(400).send({ message: 'Blog ID is required' });
+      }
+  
+      const blog = await Blog.findById(id);
+  
+      if (!blog) {
+        return res.status(404).send({ message: 'Blog post not found' });
+      }
+  
+      // Create a regex to match similar titles
+      const titleRegex = new RegExp(blog.title.split(' ').join('|'), 'i');
+  
+      const relatedQuery = {
+        _id: { $ne: id }, // Exclude the current blog post
+        title: { $regex: titleRegex } // Match similar titles
+      };
+  
+      const relatedPosts = await Blog.find(relatedQuery);
+  
+      res.status(200).send(relatedPosts);
     } catch (error) {
-        console.error("Error fetching related post:", error);
-         res.status(500).send({message: "EError fetching related post"})
-        
+      console.error('Error fetching related posts:', error);
+      res.status(500).send({ message: 'Failed to fetch related posts' });
     }
-})
+  });
 
 module.exports= router;
