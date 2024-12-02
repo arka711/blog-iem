@@ -3,7 +3,9 @@ const mongoose = require('mongoose');
 const CommentSchema = new mongoose.Schema({
     comment: {
         type: String,
-        required: true, default: 'No comment provided'
+        required: true,
+        default: 'No comment provided',
+        
     },
     user:{
        type: mongoose.Schema.Types.ObjectId,
@@ -20,7 +22,7 @@ const CommentSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     }
-})
+});
 
 const Comment = mongoose.model('Comment', CommentSchema);
 
