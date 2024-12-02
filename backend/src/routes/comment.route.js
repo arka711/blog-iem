@@ -1,6 +1,9 @@
 const express = require('express');
+
+const verifyToken = require('../middleware/verifyToken');
 const Comment = require('../model/comment.model');
 const router = express.Router();
+
 
 // create a common
 

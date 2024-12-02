@@ -1,7 +1,7 @@
 const express = require('express');
 const Blog = require('../model/blog.model');
 const Comment = require('../model/comment.model');
-const verifyToken = require('../middleware/verifytoken');
+const verifyToken = require('../middleware/verifyToken');
 const isAdmin = require('../middleware/isAdmin');
 const router = express.Router();
 
@@ -75,10 +75,9 @@ router.get("/:id",async(req,res) => {
         }
 
         
-        const comment = await Comment.find( {postId: postId}).populate('user', "username email")
+        const comments = await Comment.find( {postId: postId}).populate('user', "username email")
         res.status(200).send({
-            message: "Post retrieved successfully",
-            post: post
+           post, comments
         })
 
     } catch (error) {

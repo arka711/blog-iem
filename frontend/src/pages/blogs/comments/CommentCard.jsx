@@ -2,9 +2,13 @@ import React from 'react'
 import commentorIcon from "../../../assets/commentor.png"
 import { formatDate } from '../../../utilis/formateDate'
 import PostAComment from './PostAComment'
+import { useSelector } from 'react-redux'
 
 
 const CommentCard = ({comments}) => {
+    console.log(comments)
+    const user = useSelector((state) => state.auth.user);
+
   return (
     <div className='my-6 bg-white p-8'>
         <div>
@@ -14,8 +18,8 @@ const CommentCard = ({comments}) => {
                     <div>
                         {
                             comments.map((comment, index) => (
-                                <div key={index}>
-                                    <div>
+                                <div key={index} className='mt-4'>
+                                    <div className='flex gap-4 items-center'>
                                         <img src={commentorIcon} alt="" className='h-14' />
                                         <div>
                                             <p className='text-lg font-medium underline capitalize 
