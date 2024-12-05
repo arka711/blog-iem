@@ -9,7 +9,7 @@ export const blogApi = createApi({
      tagTypes: ['Blogs'], // Define the tag types
     endpoints: (builder) => (
         {
-            fettchBlogs: builder.query({
+            fetchBlogs: builder.query({
                 query: ({search='', category='', location=''}) => `/blogs?search=${search}&category=${category}&location=${location}`,
                 providesTags: ['Blogs']
             }),
@@ -50,4 +50,4 @@ export const blogApi = createApi({
     )
 })
 
-export const {useFettchBlogsQuery, useFetchBlogByIdQuery, useFetchRelatedBlogsQuery, usePostBlogMutation, useUpdateBlogMutation, useDeleteBlogMutation } = blogApi;
+export const {useFetchBlogsQuery, useFetchBlogByIdQuery, useFetchRelatedBlogsQuery, usePostBlogMutation, useUpdateBlogMutation, useDeleteBlogMutation } = blogApi;
