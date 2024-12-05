@@ -1,8 +1,8 @@
-export const formatDate = (isDate) => {
-    const date = new Date(isDate);
-    return date.toLocaleDateString('en-Us',{
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-    })
-}
+export const formatDate = (isoDate) => {
+    const date = new Date(isoDate);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+  };

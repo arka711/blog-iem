@@ -1,7 +1,7 @@
 import React from 'react'
 import SearchBlog from './SearchBlog'
 import { useState } from 'react'
-import { useFettchBlogsQuery } from '../../redux/features/blogs/blogsApi';
+import { useFetchBlogsQuery } from '../../redux/features/blogs/blogsApi';
 import { Link } from 'react-router-dom';
 
 const Blogs = () => {
@@ -10,7 +10,7 @@ const Blogs = () => {
     const [query, setQuery] = useState({search: "", category: ""});
 
     // get data using redux
-    const {data: blogs = [], error, isLoading} = useFettchBlogsQuery(query);
+    const {data: blogs = [], error, isLoading} = useFetchBlogsQuery(query);
     console.log(blogs)
 
     const handleSearchChange = (e) => {
@@ -36,7 +36,7 @@ const Blogs = () => {
               <Link 
               to={`/blogs/${blog._id}`}
               key={blog._id} className='shadow-md'>
-              <img src={blog.coverImg} alt="" className='h-80 w-full'/>
+              <img src={blog?.coverImg} alt="" className='h-80 w-full'/>
               <h2 className='text-xl p-4'>{blog.title}</h2>
               </Link>
             ))
