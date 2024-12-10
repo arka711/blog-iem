@@ -16,8 +16,12 @@ const SingleBlogCard = ({blog}) => {
         <div>
             <h1 className='md:text-4xl text-3xl font-medium mb-4'>{title}</h1>
             {/* TODO: Need to change author */}
-            <p className='mb-6'>{formatDate(createdAt)} by 
-                <span className='text-blue-400 cursor-pointer'>Admin 1</span></p>
+            <p className="mb-6">
+  {formatDate(createdAt)} by{' '}
+  <a href={`/profile/${author?.username}`} className="text-blue-400 cursor-pointer">
+    {author?.username || 'Unknown Author'}
+  </a>
+</p>
         </div>
         
         <div>
