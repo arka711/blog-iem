@@ -20,10 +20,10 @@ const BlogSchema = new mongoose.Schema({
         required: true,
      },
      rating: Number,
-     creatdAt: {
-        type: Date,
-        default: Date.now
-     }
+     createdAt: {
+      type: Date,
+      default: Date.now,
+    }
 })
 
 const Blog = mongoose.model("Blog", BlogSchema);
